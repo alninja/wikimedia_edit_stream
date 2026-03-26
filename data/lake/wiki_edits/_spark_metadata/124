@@ -1,4 +1,0 @@
-v1
-{"path":"file:///D:/Education/DataEngineering/DEZ_project/data/lake/wiki_edits/part-00000-4787ef04-a88d-4807-9a2c-030ae02d2b0e-c000.snappy.parquet","size":3264,"isDir":false,"modificationTime":1774533421531,"blockReplication":1,"blockSize":33554432,"action":"add"}
-{"path":"file:///D:/Education/DataEngineering/DEZ_project/data/lake/wiki_edits/part-00001-8db81e79-7943-4399-8d76-2e8aad65c742-c000.snappy.parquet","size":3221,"isDir":false,"modificationTime":1774533421551,"blockReplication":1,"blockSize":33554432,"action":"add"}
-{"path":"file:///D:/Education/DataEngineering/DEZ_project/data/lake/wiki_edits/part-00002-1425cbbe-9489-429a-91e3-814dd101e433-c000.snappy.parquet","size":3520,"isDir":false,"modificationTime":1774533421531,"blockReplication":1,"blockSize":33554432,"action":"add"}
