@@ -1,0 +1,54 @@
+id: wiki_lake_to_cloud_pull
+namespace: zoomcamp.wikimedia
+
+tasks:
+  - id: get_local_files
+    type: io.kestra.plugin.scripts.shell.Commands
+    # This taskRunner stays inside the Kestra container to see /app
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    outputFiles:
+      - "*.parquet"
+    commands:
+      # We move the files from the 'mailbox' into the Kestra working directory
+      - cp /app/storage/data/*.parquet .
+
+
+  - id: upload_to_gcs
+    type: io.kestra.plugin.gcp.gcs.Upload
+    # We grab the file Kestra just 'discovered' in the working directory
+    from: "{{ outputs.get_local_files.outputFiles | values | first }}"
+    to: "gs://dez-wiki-lake-unique-id/raw/wiki_edits/{{ now() }}.parquet"
+    serviceAccount: "{{ kv('GC_CRED') }}"
+
+  - id: create_dataset
+    type: io.kestra.plugin.gcp.bigquery.CreateDataset
+    projectId: "dez-wiki-monitor"
+    name: "wikimedia"
+    location: "EU" # Or "US", match this to your GCS bucket location!
+    ifExists: "SKIP" # Don't error if it's already there
+    serviceAccount: "{{ kv('GC_CRED') }}"
+
+  - id: load_to_bigquery
+    type: io.kestra.plugin.gcp.bigquery.LoadFromGcs
+    from: 
+      - "gs://dez-wiki-lake-unique-id/raw/wiki_edits/*.parquet"
+    projectId: "dez-wiki-monitor"
+    destinationTable: "dez-wiki-monitor.wikimedia.raw_stream"
+    format: PARQUET
+    writeDisposition: WRITE_APPEND
+    serviceAccount: "{{ kv('GC_CRED') }}"
+
+  - id: cleanup_lake
+    type: io.kestra.plugin.scripts.shell.Commands
+    # This is the "Magic Key" to avoid the Docker socket error
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      # -f (force) prevents errors if Spark hasn't written a new file yet
+      - rm -f /app/storage/data/*.parquet
+
+triggers:
+  - id: watch_lake
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "*/1 * * * *"
