@@ -1,6 +1,6 @@
 .env
 *.json
-.terraform/
+.terraform
 __pycache__/
 *.parquet
 *.log
@@ -11,9 +11,11 @@ __pycache__/
 *.ion
 data/
 **/checkpoints/
-data/
 checkpoints/
 .env
 __pycache__/
+*.tfstate
+*.terraform
+*.hcl
 
 
