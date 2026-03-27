@@ -126,7 +126,7 @@ Follow these steps to spin up the entire environment:
 
 ## 📊 Live Dashboard
 You can view the real-time Wikimedia Monitor here: 
-[\[Link to your Looker Studio Report\]](https://lookerstudio.google.com/reporting/f0a85813-6dcb-46c1-bc95-58d55a5b03f9)
+[\[Link to Looker Studio Report\]](https://lookerstudio.google.com/reporting/f0a85813-6dcb-46c1-bc95-58d55a5b03f9)
 
 *Note: The dashboard is powered by BigQuery and reflects live edits processed through our Kestra/dbt pipeline.*
 
