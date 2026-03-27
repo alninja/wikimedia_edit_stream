@@ -17,7 +17,7 @@ The Solution: This project implements a real-time monitoring pipeline that inges
 * **Dashboard:** Looker Studio
 
 
-graph TD
+```graph TD
     subgraph "External Source"
         A[Wikimedia SSE Stream]
     end
@@ -61,9 +61,10 @@ graph TD
     style F fill:#f96,stroke:#333,stroke-width:2px
     style I fill:#ff6666,stroke:#333,stroke-width:2px
     style K fill:#4285F4,stroke:#fff,stroke-width:2px
+```
 
 ## Project Structure
-Plaintext
+```Plaintext
 ├── flows/
 │   └── wiki_lake_to_cloud_pull.yaml  # Kestra Pipeline Definition
 ├── models/
@@ -75,6 +76,7 @@ Plaintext
 ├── scripts/
 │   └── producer.py                  # SSE Stream Producer
 └── dbt_project.yml                  # dbt configuration
+```
 
 🚀 Getting Started
 ### Prerequisites
