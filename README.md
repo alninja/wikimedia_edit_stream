@@ -16,6 +16,52 @@ The Solution: This project implements a real-time monitoring pipeline that inges
 * **DWH & Transformations:** BigQuery & dbt
 * **Dashboard:** Looker Studio
 
+
+graph TD
+    subgraph "External Source"
+        A[Wikimedia SSE Stream]
+    end
+
+    subgraph "Local Infrastructure (Docker)"
+        B[Python Producer]
+        C((Kafka / Redpanda))
+        D[PySpark Structured Streaming]
+        E[(Local Parquet Storage)]
+    end
+
+    subgraph "Orchestration (Kestra)"
+        F{Kestra Workflow}
+    end
+
+    subgraph "Google Cloud Platform (GCP)"
+        G[GCS Bucket - Data Lake]
+        H[(BigQuery - Raw Table)]
+        I{dbt Cloud}
+        J[(BigQuery - Prod Table)]
+    end
+
+    subgraph "Visualization"
+        K[Looker Studio Dashboard]
+    end
+
+    %% Flow Connections
+    A -->|Live Events| B
+    B -->|Produce| C
+    C -->|Consume| D
+    D -->|Write Parquet| E
+    
+    E -->|Trigger: Pull| F
+    F -->|Upload| G
+    G -->|Load| H
+    H -->|Trigger Transform| I
+    I -->|Test & Model| J
+    J -->|Query| K
+
+    %% Styling
+    style F fill:#f96,stroke:#333,stroke-width:2px
+    style I fill:#ff6666,stroke:#333,stroke-width:2px
+    style K fill:#4285F4,stroke:#fff,stroke-width:2px
+
 ## Project Structure
 Plaintext
 ├── flows/
