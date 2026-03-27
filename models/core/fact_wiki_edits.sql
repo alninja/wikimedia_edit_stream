@@ -19,4 +19,8 @@ select
     domain_name,
     event_timestamp,
     event_date
+<<<<<<< HEAD
 from {{ ref('stg_wikimedia_edits') }}
+=======
+from {{ ref('stg_wikimedia_edits') }}
+>>>>>>> 4022f4d5ce55e47c6212b0a88e25978ffaff4702
