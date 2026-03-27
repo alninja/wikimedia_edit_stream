@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: staging
+    database: dez-wiki-monitor  # <--- Change this to your GCP Project ID
+    schema: wikimedia           # The dataset Kestra is loading into
+    tables:
+      - name: raw_stream        # The table name Kestra created
