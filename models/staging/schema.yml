@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: staging
+    database: dez-wiki-monitor
+    schema: wikimedia
+    tables:
+      - name: raw_stream
+        description: "Raw Parquet files loaded from GCS by Kestra containing Wikipedia edit events."
+
+models:
+  - name: stg_wikimedia_edits
+    description: "Staging model that cleans and casts the raw JSON-like stream from Wikimedia."
+    columns:
+      - name: edit_id
+        description: "Primary key for the edit event."
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_wiki_edits
+    description: "Final partitioned and clustered table used for the Looker Studio dashboard."
+    columns:
+      - name: event_date
+        description: "The date of the edit, used for BigQuery partitioning."
+        tests:
+          - not_null
